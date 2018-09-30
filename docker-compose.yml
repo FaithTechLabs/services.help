@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  api:
+    image: strapi/strapi
+    environment:
+      - APP_NAME=services.help
+      - DATABASE_CLIENT=mongo
+      - DATABASE_HOST=db
+      - DATABASE_PORT=27017
+      - DATABASE_NAME=strapi
+      - DATABASE_USERNAME=
+      - DATABASE_PASSWORD=
+      - HOST=localhost
+    ports:
+      - 1337:1337
+    volumes:
+      - ./services.help:/usr/src/api/services.help
+      #- /usr/src/api/services.help/node_modules
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=strapi
+    ports:
+      - 27017:27017
+    volumes:
+      - ./db:/data/db
+    restart: always
